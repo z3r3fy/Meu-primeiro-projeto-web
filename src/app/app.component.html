@@ -1,0 +1,8 @@
+<app-menu-top *ngIf="!isregistrated()"></app-menu-top>
+<app-menu *ngIf="isregistrated()"></app-menu>
+
+<router-outlet></router-outlet>
+
+<!--div class="main_container ">
+    <router-outlet></router-outlet>
+</div-->
