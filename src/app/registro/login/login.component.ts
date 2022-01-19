@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  EmailValidator,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { EmailValidator, FormBuilder, FormGroup, Validators,}from '@angular/forms';
 import { AuthService } from 'src/app/shared/Auth.service';
 
 @Component({
@@ -16,7 +11,7 @@ export class LoginComponent implements OnInit {
   form!: FormGroup;
   alert: any;
 
-  ispenner = false;
+  showspinner: boolean = false;
 
   constructor(
     private fb: FormBuilder, 
@@ -27,6 +22,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.gerarForm();
+    //inserindo carrega usuer e senha para teste
     this.form.controls.email.setValue('teste@teste.com');
     this.form.controls.senha.setValue('password');
   }
@@ -36,10 +32,15 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]], // obriga a ser um email
       senha: ['', [Validators.required, Validators.minLength(6)]],
     });
+
+    this.showspinner = true;
   }
+      
   // ação de logar
   logar() {
-    this.ispenner = true;
+
+    this.showspinner = true;
+    
     this.authservice
       .login(this.form.controls.email.value, this.form.controls.senha.value)
       .subscribe((res) => {
@@ -48,7 +49,7 @@ export class LoginComponent implements OnInit {
         } else if (res.token) {
           this.authservice.registra(res.token); // criar registro
         }
-        this.ispenner = false;
+        this.showspinner = false;;
       });
   }
 }

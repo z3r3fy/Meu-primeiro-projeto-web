@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -32,10 +32,10 @@ export class AuthService {
       email: "",
       token: token
     };
-    localStorage.setItem("email",'maria@maria.com');
+    localStorage.setItem("email",'teste@teste.com');
     localStorage.setItem("token",token);
 
-    this.activeRoute.navigate("login");
+   // this.activeRoute.navigate("login");
 
   }
 
