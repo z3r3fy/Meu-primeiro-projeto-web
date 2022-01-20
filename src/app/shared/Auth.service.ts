@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute,NavigationEnd } from '@angular/router';
+import {  Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -18,8 +18,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private activeRoute:ActivatedRoute,
-    ) {}
+    private router: Router,
+  ) { }
 
   login(email: string, senha: string): Observable<any> {
     const credential = { email: email, password: senha };
@@ -32,10 +32,10 @@ export class AuthService {
       email: "",
       token: token
     };
-    localStorage.setItem("email",'teste@teste.com');
-    localStorage.setItem("token",token);
+    localStorage.setItem("email", 'teste@teste.com');
+    localStorage.setItem("token", token);
 
-   // this.activeRoute.navigate("login");
+     this.router.navigate(["/"]);
 
   }
 
@@ -48,7 +48,7 @@ export class AuthService {
     localStorage.clear();
   }
 
-  isregistrated(){
+  isregistrated() {
     return this.usuario.isregistrated;
   }
 
