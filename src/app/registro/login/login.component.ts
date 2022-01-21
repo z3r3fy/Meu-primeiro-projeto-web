@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EmailValidator, FormBuilder, FormGroup, Validators,}from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/shared/Auth.service';
 
 @Component({
@@ -7,23 +7,23 @@ import { AuthService } from 'src/app/shared/Auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
+
 export class LoginComponent implements OnInit {
   form!: FormGroup;
-  alert: any;
-
+  alert: boolean = false;
   showspinner: boolean = false;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private authservice: AuthService
-    ) {
+  ) {
     this.authservice.isTelaLogin = true;
   }
 
   ngOnInit(): void {
     this.gerarForm();
-    //inserindo carrega usuer e senha para teste
-    this.form.controls.email.setValue('teste@teste.com');
+    //carrega usuer e senha para teste
+     this.form.controls.email.setValue('teste@teste.com');
     this.form.controls.senha.setValue('password');
   }
   gerarForm() {
@@ -32,24 +32,30 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]], // obriga a ser um email
       senha: ['', [Validators.required, Validators.minLength(6)]],
     });
-
-    this.showspinner = true;
-  }
-      
-  // ação de logar
-  logar() {
-
-    this.showspinner = true;
     
+    
+  }
+
+  // ação de logar
+  logar(): void {
+
     this.authservice
       .login(this.form.controls.email.value, this.form.controls.senha.value)
       .subscribe((res) => {
         if (res.error) {
-          console.log(res.error); // mostrar alerta e fazer controle de 3 tentativas
+          console.log(res.error);
+          
+          // mostrar alerta e fazer controle de 3 tentativas
         } else if (res.token) {
-          this.authservice.registra(res.token); // criar registro
+          this.authservice.registra(res.token);
+          this.alert = true;
+          
+          // criar registro
         }
-        this.showspinner = false;;
       });
+  }
+  closeAlert(){
+    this.alert=false
+
   }
 }
